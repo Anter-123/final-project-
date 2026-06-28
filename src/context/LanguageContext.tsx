@@ -25,6 +25,7 @@ const arabicTranslations: Record<string, string> = {
   "My Medications": "أدويتي",
   "Health Quiz & AI": "اختبار الصحة والذكاء الاصطناعي",
   "3D Organ Anatomy": "تشريح الأعضاء ثلاثي الأبعاد",
+  "Skin AI Diagnostic": "تشخيص الجلد بالذكاء الاصطناعي",
   "My Patients": "مرضاي",
   "Working Hours": "ساعات العمل",
   "Verification Documents": "وثائق التحقق",

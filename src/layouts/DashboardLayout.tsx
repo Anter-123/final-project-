@@ -24,7 +24,8 @@ import {
   X,
   FileCheck,
   Megaphone,
-  Globe
+  Globe,
+  Camera
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { MedicationReminder } from "../components/MedicationReminder";
@@ -137,6 +138,7 @@ export const DashboardLayout: React.FC = () => {
       { to: "/patient/medications", label: "My Medications", icon: Pill },
       { to: "/patient/assessment", label: "Health Quiz & AI", icon: BrainCircuit },
       { to: "/anatomy-3d", label: "3D Organ Anatomy", icon: Activity },
+      { to: "/patient/skin-ai", label: "Skin AI Diagnostic", icon: Camera },
       ...common
     ];
   };

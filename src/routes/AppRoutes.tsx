@@ -14,6 +14,7 @@ import { DoctorDirectory } from "../pages/DoctorDirectory";
 import { AIHealthAssessment } from "../pages/AIHealthAssessment";
 import { Chat } from "../pages/Chat";
 import { Anatomy3D } from "../pages/Anatomy3D";
+import { SkinAI } from "../pages/SkinAI";
 import { useAuth } from "../context/AuthContext";
 
 const HomeRedirect: React.FC = () => {
@@ -164,6 +165,14 @@ export const AppRoutes: React.FC = () => {
           element={
             <ProtectedRoute allowedRoles={["User"]}>
               <Anatomy3D />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/patient/skin-ai" 
+          element={
+            <ProtectedRoute allowedRoles={["User"]}>
+              <SkinAI />
             </ProtectedRoute>
           } 
         />
