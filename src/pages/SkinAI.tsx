@@ -115,49 +115,52 @@ export const SkinAI: React.FC = () => {
     stopCameraStream(); // Stop any active streams first
     setIsCameraOpen(true);
 
-    try {
-      // 1. Request initial permissions and stream
-      const constraints: MediaStreamConstraints = {
-        video: deviceId 
-          ? { deviceId: { exact: deviceId } } 
-          : { facingMode: "environment" } // Prefer back camera on mobile
-      };
-      
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      streamRef.current = stream;
-      
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
-
-      // 2. Discover available cameras
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoDevices = devices.filter(d => d.kind === "videoinput");
-      setAvailableCameras(videoDevices);
-      
-      // Select currently active camera ID
-      if (!deviceId && videoDevices.length > 0) {
-        // Try to match the active track's settings
-        const activeTrack = stream.getVideoTracks()[0];
-        const settings = activeTrack?.getSettings();
-        if (settings?.deviceId) {
-          setActiveCameraId(settings.deviceId);
-        } else {
-          setActiveCameraId(videoDevices[0].deviceId);
+    // Wait for the render loop to mount the video element in the DOM
+    setTimeout(async () => {
+      try {
+        // 1. Request initial permissions and stream
+        const constraints: MediaStreamConstraints = {
+          video: deviceId 
+            ? { deviceId: { exact: deviceId } } 
+            : { facingMode: "environment" } // Prefer back camera on mobile
+        };
+        
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        streamRef.current = stream;
+        
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
         }
-      } else if (deviceId) {
-        setActiveCameraId(deviceId);
+
+        // 2. Discover available cameras
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter(d => d.kind === "videoinput");
+        setAvailableCameras(videoDevices);
+        
+        // Select currently active camera ID
+        if (!deviceId && videoDevices.length > 0) {
+          // Try to match the active track's settings
+          const activeTrack = stream.getVideoTracks()[0];
+          const settings = activeTrack?.getSettings();
+          if (settings?.deviceId) {
+            setActiveCameraId(settings.deviceId);
+          } else {
+            setActiveCameraId(videoDevices[0].deviceId);
+          }
+        } else if (deviceId) {
+          setActiveCameraId(deviceId);
+        }
+      } catch (err: any) {
+        console.error("Camera access error:", err);
+        setCameraError(
+          lang === "ar" 
+            ? "لم يتم العثور على كاميرات متصلة أو تم رفض إذن الوصول للكاميرا." 
+            : "Camera not found or camera access permission denied."
+        );
+      } finally {
+        setStartingCamera(false);
       }
-    } catch (err: any) {
-      console.error("Camera access error:", err);
-      setCameraError(
-        lang === "ar" 
-          ? "لم يتم العثور على كاميرات متصلة أو تم رفض إذن الوصول للكاميرا." 
-          : "Camera not found or camera access permission denied."
-      );
-    } finally {
-      setStartingCamera(false);
-    }
+    }, 80);
   };
 
   const stopCameraStream = () => {
@@ -340,12 +343,14 @@ export const SkinAI: React.FC = () => {
             {/* Live Camera Capture Interface */}
             {isCameraOpen && (
               <div className="relative border rounded-xl overflow-hidden bg-black aspect-video flex flex-col items-center justify-center min-h-[300px]">
-                {startingCamera ? (
-                  <div className="flex flex-col items-center gap-2 text-white text-xs">
+                {startingCamera && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white text-xs bg-black/90 z-10">
                     <RefreshCw className="h-6 w-6 animate-spin text-primary" />
                     <span>{lang === "ar" ? "جاري تشغيل الكاميرا..." : "Accessing camera..."}</span>
                   </div>
-                ) : cameraError ? (
+                )}
+
+                {cameraError ? (
                   <div className="flex flex-col items-center gap-3 text-red-400 p-6 text-center text-xs">
                     <CameraOff className="h-8 w-8" />
                     <p>{cameraError}</p>
@@ -379,14 +384,14 @@ export const SkinAI: React.FC = () => {
                     {/* Close Camera button */}
                     <button
                       onClick={handleCloseCamera}
-                      className="absolute top-3 right-3 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-lg transition-colors active:scale-95 shadow-md"
+                      className="absolute top-3 right-3 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-lg transition-colors active:scale-95 shadow-md z-20"
                       title={lang === "ar" ? "إغلاق الكاميرا" : "Close Camera"}
                     >
                       <X className="h-4.5 w-4.5" />
                     </button>
 
                     {/* Camera Control overlays */}
-                    <div className="absolute bottom-4 inset-x-0 flex items-center justify-center gap-4 px-4">
+                    <div className="absolute bottom-4 inset-x-0 flex items-center justify-center gap-4 px-4 z-20">
                       {availableCameras.length > 1 && (
                         <button
                           onClick={handleSwitchCamera}
