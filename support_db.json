@@ -1,0 +1,900 @@
+{
+  "rooms": [
+    {
+      "_id": "local-support-pat-6a2ee97734e2fdd7229f451d",
+      "participants": [
+        {
+          "_id": "admin-system-id",
+          "name": "SmartClinic Admin",
+          "role": "Admin"
+        },
+        {
+          "_id": "6a2ee97734e2fdd7229f451d",
+          "name": "mohamed anter",
+          "role": "User"
+        }
+      ],
+      "createdAt": "2026-06-17T19:55:09.036Z",
+      "lastMessage": {
+        "message": "ممم",
+        "createdAt": "2026-06-18T18:34:22.186Z"
+      }
+    },
+    {
+      "_id": "local-support-doc-6a2f44a377866e9b29972def",
+      "participants": [
+        {
+          "_id": "admin-system-id",
+          "name": "SmartClinic Admin",
+          "role": "Admin"
+        },
+        {
+          "_id": "6a2f44a377866e9b29972def",
+          "name": "mohamed anter",
+          "role": "Doctor"
+        }
+      ],
+      "createdAt": "2026-06-17T19:55:09.036Z",
+      "lastMessage": {
+        "message": "مرحباً، تم استلام شكواك/طلبك وجارٍ مراجعة التفاصيل وحل المشكلة في أقرب وقت. شكراً لتواصلك معنا.",
+        "createdAt": "2026-06-17T19:59:30.296Z"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "_id": "support-msg-welcome-1781726109049",
+      "chatId": "local-support-doc-6a2f44a377866e9b29972def",
+      "senderId": "admin-system-id",
+      "message": "مرحباً بك في مركز الدعم الفني والشكاوى الخاص بـ SmartClinic. كيف يمكننا مساعدتك اليوم كـ طبيب؟",
+      "createdAt": "2026-06-17T19:55:09.049Z"
+    },
+    {
+      "_id": "support-msg-welcome-1781726109053",
+      "chatId": "local-support-pat-6a2ee97734e2fdd7229f451d",
+      "senderId": "admin-system-id",
+      "message": "مرحباً بك في مركز الدعم الفني والشكاوى الخاص بـ SmartClinic. كيف يمكننا مساعدتك اليوم كـ مريض؟",
+      "createdAt": "2026-06-17T19:55:09.053Z"
+    },
+    {
+      "_id": "support-msg-1781726340201",
+      "chatId": "local-support-pat-6a2ee97734e2fdd7229f451d",
+      "senderId": "6a2ee97734e2fdd7229f451d",
+      "message": "للتللل",
+      "createdAt": "2026-06-17T19:59:00.201Z"
+    },
+    {
+      "_id": "support-msg-admin-reply-1781726341720",
+      "chatId": "local-support-pat-6a2ee97734e2fdd7229f451d",
+      "senderId": "admin-system-id",
+      "message": "مرحباً، تم استلام شكواك/طلبك وجارٍ مراجعة التفاصيل وحل المشكلة في أقرب وقت. شكراً لتواصلك معنا.",
+      "createdAt": "2026-06-17T19:59:01.719Z"
+    },
+    {
+      "_id": "support-msg-1781726368789",
+      "chatId": "local-support-doc-6a2f44a377866e9b29972def",
+      "senderId": "6a2f44a377866e9b29972def",
+      "message": "عندي مشكلة",
+      "createdAt": "2026-06-17T19:59:28.789Z"
+    },
+    {
+      "_id": "support-msg-admin-reply-1781726370297",
+      "chatId": "local-support-doc-6a2f44a377866e9b29972def",
+      "senderId": "admin-system-id",
+      "message": "مرحباً، تم استلام شكواك/طلبك وجارٍ مراجعة التفاصيل وحل المشكلة في أقرب وقت. شكراً لتواصلك معنا.",
+      "createdAt": "2026-06-17T19:59:30.296Z"
+    },
+    {
+      "_id": "support-msg-1781807662186",
+      "chatId": "local-support-pat-6a2ee97734e2fdd7229f451d",
+      "senderId": "6a1bf5201bb36234abe2d3d7",
+      "message": "ممم",
+      "createdAt": "2026-06-18T18:34:22.186Z"
+    }
+  ],
+  "clinicalRooms": [
+    {
+      "_id": "6a2ef3f78e79ab117486c3c4",
+      "userId": {
+        "_id": "6a2ee97734e2fdd7229f451d",
+        "name": "mohamed anter",
+        "email": "antercom17@gmail.com"
+      },
+      "messages": [
+        {
+          "sender": "user",
+          "text": "dsfdf",
+          "timestamp": "2026-06-14T18:33:27.172Z",
+          "_id": "6a2ef3f78e79ab117486c3c6"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T18:33:27.229Z",
+          "_id": "6a2ef3f78e79ab117486c3c7"
+        },
+        {
+          "sender": "user",
+          "text": "df",
+          "timestamp": "2026-06-14T18:33:34.090Z",
+          "_id": "6a2ef3fe8e79ab117486c3cf"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T18:33:34.129Z",
+          "_id": "6a2ef3fe8e79ab117486c3d0"
+        },
+        {
+          "sender": "user",
+          "text": "back",
+          "timestamp": "2026-06-14T19:58:54.371Z",
+          "_id": "6a2f07fe8bfc44dfb84e1580"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T19:58:54.448Z",
+          "_id": "6a2f07fe8bfc44dfb84e1581"
+        },
+        {
+          "sender": "user",
+          "text": "My back hurts",
+          "timestamp": "2026-06-14T19:59:29.583Z",
+          "_id": "6a2f08218bfc44dfb84e158f"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T19:59:29.649Z",
+          "_id": "6a2f08218bfc44dfb84e1590"
+        },
+        {
+          "sender": "user",
+          "text": "My back hurts",
+          "timestamp": "2026-06-14T20:01:10.158Z",
+          "_id": "6a2f08868bfc44dfb84e15b3"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T20:01:10.236Z",
+          "_id": "6a2f08868bfc44dfb84e15b4"
+        },
+        {
+          "sender": "user",
+          "text": "My back hurts",
+          "timestamp": "2026-06-14T20:03:11.357Z",
+          "_id": "6a2f08ff92fce685a7d12e5b"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T20:03:11.427Z",
+          "_id": "6a2f08ff92fce685a7d12e5c"
+        },
+        {
+          "sender": "user",
+          "text": "back ",
+          "timestamp": "2026-06-14T20:03:41.770Z",
+          "_id": "6a2f091d92fce685a7d12e70"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T20:03:41.845Z",
+          "_id": "6a2f091d92fce685a7d12e71"
+        },
+        {
+          "sender": "user",
+          "text": "back ",
+          "timestamp": "2026-06-14T20:23:49.048Z",
+          "_id": "6a2f0dd5713f7234c0c67553"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T20:23:49.139Z",
+          "_id": "6a2f0dd5713f7234c0c67554"
+        },
+        {
+          "sender": "user",
+          "text": "head",
+          "timestamp": "2026-06-14T20:25:05.016Z",
+          "_id": "6a2f0e2178af0087e79c76bb"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T20:25:05.108Z",
+          "_id": "6a2f0e2178af0087e79c76bc"
+        },
+        {
+          "sender": "user",
+          "text": "صداع",
+          "timestamp": "2026-06-14T20:29:44.597Z",
+          "_id": "6a2f0f380a1080a21de75a7b"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T20:29:44.663Z",
+          "_id": "6a2f0f380a1080a21de75a7c"
+        },
+        {
+          "sender": "user",
+          "text": "head",
+          "timestamp": "2026-06-14T20:30:10.747Z",
+          "_id": "6a2f0f520a1080a21de75a98"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T20:30:10.811Z",
+          "_id": "6a2f0f520a1080a21de75a99"
+        },
+        {
+          "sender": "user",
+          "text": "head",
+          "timestamp": "2026-06-14T20:31:28.995Z",
+          "_id": "6a2f0fa00a1080a21de75abb"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T20:31:29.059Z",
+          "_id": "6a2f0fa10a1080a21de75abc"
+        },
+        {
+          "sender": "user",
+          "text": "back",
+          "timestamp": "2026-06-14T20:45:01.098Z",
+          "_id": "6a2f12cd0a1080a21de75ae2"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-14T20:45:01.187Z",
+          "_id": "6a2f12cd0a1080a21de75ae3"
+        },
+        {
+          "sender": "user",
+          "text": "My head hurts and I feel dizzy.",
+          "timestamp": "2026-06-16T23:38:21.096Z",
+          "_id": "6a31de6dbfbd07930a8a49e3"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-16T23:38:21.159Z",
+          "_id": "6a31de6dbfbd07930a8a49e4"
+        },
+        {
+          "sender": "user",
+          "text": "My chest hurts and I feel dizzy.",
+          "timestamp": "2026-06-16T23:39:10.841Z",
+          "_id": "6a31de9e3864cf97b18efdfa"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-16T23:39:10.896Z",
+          "_id": "6a31de9e3864cf97b18efdfb"
+        },
+        {
+          "sender": "user",
+          "text": "My chest hurts and I feel dizzy.",
+          "timestamp": "2026-06-16T23:39:11.468Z",
+          "_id": "6a31de9f3864cf97b18efe1d"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-16T23:39:11.509Z",
+          "_id": "6a31de9f3864cf97b18efe1e"
+        },
+        {
+          "sender": "user",
+          "text": "My chest hurts and I feel dizzy.",
+          "timestamp": "2026-06-16T23:39:11.946Z",
+          "_id": "6a31de9f3864cf97b18efe42"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-16T23:39:11.991Z",
+          "_id": "6a31de9f3864cf97b18efe43"
+        },
+        {
+          "sender": "user",
+          "text": "My chest hurts and I feel dizzy.",
+          "timestamp": "2026-06-16T23:39:12.428Z",
+          "_id": "6a31dea03864cf97b18efe69"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-16T23:39:12.477Z",
+          "_id": "6a31dea03864cf97b18efe6a"
+        },
+        {
+          "sender": "user",
+          "text": "My chest hurts and I feel dizzy.",
+          "timestamp": "2026-06-16T23:39:12.921Z",
+          "_id": "6a31dea03864cf97b18efe94"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-16T23:39:12.971Z",
+          "_id": "6a31dea03864cf97b18efe95"
+        },
+        {
+          "sender": "user",
+          "text": "My chest hurts and I feel dizzy.",
+          "timestamp": "2026-06-16T23:39:13.406Z",
+          "_id": "6a31dea13864cf97b18efebf"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-16T23:39:13.450Z",
+          "_id": "6a31dea13864cf97b18efec0"
+        },
+        {
+          "sender": "user",
+          "text": "My chest hurts and I feel dizzy.",
+          "timestamp": "2026-06-16T23:39:13.886Z",
+          "_id": "6a31dea13864cf97b18efeec"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-16T23:39:13.925Z",
+          "_id": "6a31dea13864cf97b18efeed"
+        },
+        {
+          "sender": "user",
+          "text": "My chest hurts and I feel dizzy.",
+          "timestamp": "2026-06-16T23:39:14.368Z",
+          "_id": "6a31dea23864cf97b18eff1b"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-16T23:39:14.412Z",
+          "_id": "6a31dea23864cf97b18eff1c"
+        },
+        {
+          "sender": "user",
+          "text": "My chest hurts and I feel dizzy.",
+          "timestamp": "2026-06-16T23:39:36.416Z",
+          "_id": "6a31deb83864cf97b18eff4e"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-16T23:39:36.470Z",
+          "_id": "6a31deb83864cf97b18eff4f"
+        },
+        {
+          "sender": "user",
+          "text": "My back hurts",
+          "timestamp": "2026-06-17T19:04:45.392Z",
+          "_id": "6a32efcd17ac480ea9ebef22"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-17T19:04:45.437Z",
+          "_id": "6a32efcd17ac480ea9ebef23"
+        },
+        {
+          "sender": "user",
+          "text": "قبلب",
+          "timestamp": "2026-06-17T19:07:00.992Z",
+          "_id": "6a32f054c4e952632f7363f2"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-17T19:07:01.077Z",
+          "_id": "6a32f055c4e952632f7363f3"
+        },
+        {
+          "sender": "user",
+          "text": "صدري تاعبني",
+          "timestamp": "2026-06-17T19:07:21.795Z",
+          "_id": "6a32f069c4e952632f73642d"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-17T19:07:21.846Z",
+          "_id": "6a32f069c4e952632f73642e"
+        },
+        {
+          "sender": "user",
+          "text": "بطني",
+          "timestamp": "2026-06-17T19:08:11.752Z",
+          "_id": "6a32f09be3ef673b4aa29532"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-17T19:08:11.814Z",
+          "_id": "6a32f09be3ef673b4aa29534"
+        },
+        {
+          "sender": "user",
+          "text": "ممم",
+          "timestamp": "2026-06-18T17:36:32.511Z",
+          "_id": "6a342ca0431f41199a4c6b34"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-18T17:36:32.563Z",
+          "_id": "6a342ca0431f41199a4c6b35"
+        },
+        {
+          "sender": "user",
+          "text": "بطني",
+          "timestamp": "2026-06-18T17:37:04.755Z",
+          "_id": "6a342cc0431f41199a4c6b76"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-18T17:37:04.806Z",
+          "_id": "6a342cc0431f41199a4c6b77"
+        },
+        {
+          "sender": "user",
+          "text": "صدري تاعبني",
+          "timestamp": "2026-06-18T17:37:28.765Z",
+          "_id": "6a342cd8e8d64580190dfd9b"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-18T17:37:28.828Z",
+          "_id": "6a342cd8e8d64580190dfd9c"
+        },
+        {
+          "sender": "user",
+          "text": "My back hurts",
+          "timestamp": "2026-06-18T17:51:10.549Z",
+          "_id": "6a34300e8b70f8da2152907a"
+        },
+        {
+          "sender": "system",
+          "text": "بالنظر إلى جلد المنطقة — هل تلاحظ احمراراً أو طفحاً أو جرحاً أو دفءاً أو تورماً على السطح؟",
+          "timestamp": "2026-06-18T17:51:29.809Z",
+          "_id": "6a3430218b70f8da21529095"
+        },
+        {
+          "sender": "user",
+          "text": "ربب",
+          "timestamp": "2026-06-18T17:52:39.848Z",
+          "_id": "6a3430678b70f8da2152910a"
+        },
+        {
+          "sender": "system",
+          "text": "عندما تضغط برفق على المنطقة — هل تشعر بكتلة أو صلابة غير طبيعية أو ألم تحت سطح الجلد؟",
+          "timestamp": "2026-06-18T17:52:39.918Z",
+          "_id": "6a3430678b70f8da2152910b"
+        },
+        {
+          "sender": "user",
+          "text": "لا",
+          "timestamp": "2026-06-18T17:52:54.846Z",
+          "_id": "6a3430768b70f8da21529151"
+        },
+        {
+          "sender": "system",
+          "text": "عندما تضغط برفق على المنطقة — هل تشعر بكتلة أو صلابة غير طبيعية أو ألم تحت سطح الجلد؟",
+          "timestamp": "2026-06-18T17:53:20.499Z",
+          "_id": "6a3430908b70f8da21529152"
+        },
+        {
+          "sender": "user",
+          "text": "لا",
+          "timestamp": "2026-06-18T17:53:29.907Z",
+          "_id": "6a34309997e5fd1467a1d392"
+        },
+        {
+          "sender": "system",
+          "text": "عندما تحرك المنطقة أو تستخدمها — هل يزداد الألم؟ هل تشعر بضعف العضلة أو شدها أو تشنجها؟",
+          "timestamp": "2026-06-18T17:53:29.995Z",
+          "_id": "6a34309997e5fd1467a1d393"
+        },
+        {
+          "sender": "user",
+          "text": "لا",
+          "timestamp": "2026-06-18T17:53:37.727Z",
+          "_id": "6a3430a102536899676d2496"
+        },
+        {
+          "sender": "system",
+          "text": "عندما تحرك المنطقة أو تستخدمها — هل يزداد الألم؟ هل تشعر بضعف العضلة أو شدها أو تشنجها؟",
+          "timestamp": "2026-06-18T17:54:03.643Z",
+          "_id": "6a3430bb02536899676d2499"
+        },
+        {
+          "sender": "user",
+          "text": "نعم",
+          "timestamp": "2026-06-18T17:54:43.941Z",
+          "_id": "6a3430e39cea78c69a3e13f5"
+        },
+        {
+          "sender": "system",
+          "text": "كيف يبدو المفصل — هل هو متيبس، متورم، يصدر طقطقة، أو يفقد ثباته فجأة؟ هل مداه الحركي أقل من الجانب الآخر؟",
+          "timestamp": "2026-06-18T17:54:44.033Z",
+          "_id": "6a3430e49cea78c69a3e13f6"
+        },
+        {
+          "sender": "user",
+          "text": "متورم",
+          "timestamp": "2026-06-18T17:54:56.585Z",
+          "_id": "6a3430f09cea78c69a3e1446"
+        },
+        {
+          "sender": "system",
+          "text": "كيف يبدو المفصل — هل هو متيبس، متورم، يصدر طقطقة، أو يفقد ثباته فجأة؟ هل مداه الحركي أقل من الجانب الآخر؟",
+          "timestamp": "2026-06-18T17:55:22.545Z",
+          "_id": "6a34310a9cea78c69a3e1461"
+        },
+        {
+          "sender": "user",
+          "text": "راسي وجعاني",
+          "timestamp": "2026-06-18T17:57:48.245Z",
+          "_id": "6a34319c9cea78c69a3e14fd"
+        },
+        {
+          "sender": "system",
+          "text": "هل تعرضت لسقوط أو ضربة مباشرة أو إصابة مفاجئة؟ هل توجد نقطة بعينها على العظم تؤلم بشدة عند الضغط عليها؟",
+          "timestamp": "2026-06-18T17:57:48.311Z",
+          "_id": "6a34319c9cea78c69a3e14fe"
+        },
+        {
+          "sender": "user",
+          "text": "لا",
+          "timestamp": "2026-06-18T17:58:13.941Z",
+          "_id": "6a3431b59cea78c69a3e1553"
+        },
+        {
+          "sender": "system",
+          "text": "هل تعرضت لسقوط أو ضربة مباشرة أو إصابة مفاجئة؟ هل توجد نقطة بعينها على العظم تؤلم بشدة عند الضغط عليها؟",
+          "timestamp": "2026-06-18T17:58:39.756Z",
+          "_id": "6a3431cf9cea78c69a3e156e"
+        },
+        {
+          "sender": "user",
+          "text": "لا",
+          "timestamp": "2026-06-18T17:59:50.755Z",
+          "_id": "6a3432166b5acb4c99e7b589"
+        },
+        {
+          "sender": "system",
+          "text": "هل تشعر بتخدير أو تنميل أو حرقة أو إحساس كالكهرباء؟ هل يسير الألم على طول الطرف أو يتبع مساراً محدداً؟",
+          "timestamp": "2026-06-18T17:59:50.836Z",
+          "_id": "6a3432166b5acb4c99e7b58a"
+        },
+        {
+          "sender": "user",
+          "text": "تنميل",
+          "timestamp": "2026-06-18T18:01:06.973Z",
+          "_id": "6a3432626b5acb4c99e7b5f3"
+        },
+        {
+          "sender": "system",
+          "text": "بما أنك ذكرت أعراضاً عصبية — هل الإحساس يسير في مسار محدد، وهل وضعية معينة تحسّنه أو تزيده؟",
+          "timestamp": "2026-06-18T18:01:28.131Z",
+          "_id": "6a3432786b5acb4c99e7b609"
+        },
+        {
+          "sender": "user",
+          "text": "لا",
+          "timestamp": "2026-06-18T18:01:44.710Z",
+          "_id": "6a3432886b5acb4c99e7b664"
+        },
+        {
+          "sender": "system",
+          "text": "بما أنك ذكرت أعراضاً عصبية — هل الإحساس يسير في مسار محدد، وهل وضعية معينة تحسّنه أو تزيده؟",
+          "timestamp": "2026-06-18T18:02:10.790Z",
+          "_id": "6a3432a26b5acb4c99e7b66c"
+        },
+        {
+          "sender": "user",
+          "text": "لا",
+          "timestamp": "2026-06-18T18:02:55.343Z",
+          "_id": "6a3432cf02536899676d2512"
+        },
+        {
+          "sender": "system",
+          "text": "هل المنطقة باردة أو شاحبة أو مزرقة بشكل واضح مقارنة بالجانب الآخر؟ هل تشعر بنبضان أو ألم يأتي عند المشي؟",
+          "timestamp": "2026-06-18T18:02:55.423Z",
+          "_id": "6a3432cf02536899676d2513"
+        },
+        {
+          "sender": "user",
+          "text": "لا ",
+          "timestamp": "2026-06-18T18:03:06.877Z",
+          "_id": "6a3432da02536899676d2572"
+        },
+        {
+          "sender": "system",
+          "text": "هل المنطقة باردة أو شاحبة أو مزرقة بشكل واضح مقارنة بالجانب الآخر؟ هل تشعر بنبضان أو ألم يأتي عند المشي؟",
+          "timestamp": "2026-06-18T18:03:32.810Z",
+          "_id": "6a3432f402536899676d258d"
+        },
+        {
+          "sender": "user",
+          "text": "قولت لا",
+          "timestamp": "2026-06-18T18:03:40.943Z",
+          "_id": "6a3432fc02536899676d25e9"
+        },
+        {
+          "sender": "system",
+          "text": "جاري توليد التقرير...",
+          "timestamp": "2026-06-18T18:03:41.013Z",
+          "_id": "6a3432fd02536899676d25ea"
+        },
+        {
+          "sender": "user",
+          "text": "pain",
+          "timestamp": "2026-06-18T18:17:24.496Z",
+          "_id": "6a34363420e310681e3b8e12"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-18T18:17:24.592Z",
+          "_id": "6a34363420e310681e3b8e13"
+        },
+        {
+          "sender": "user",
+          "text": "pain",
+          "timestamp": "2026-06-18T18:22:27.578Z",
+          "_id": "6a343763623aff64e77bfc82"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-18T18:22:27.674Z",
+          "_id": "6a343763623aff64e77bfc83"
+        },
+        {
+          "sender": "user",
+          "text": "hg",
+          "timestamp": "2026-06-18T18:23:00.203Z",
+          "_id": "6a343784623aff64e77bfcf0"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-18T18:23:00.272Z",
+          "_id": "6a343784623aff64e77bfcf1"
+        },
+        {
+          "sender": "user",
+          "text": "وجع",
+          "timestamp": "2026-06-18T18:23:26.689Z",
+          "_id": "6a34379e623aff64e77bfd73"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-18T18:23:26.753Z",
+          "_id": "6a34379e623aff64e77bfd74"
+        },
+        {
+          "sender": "user",
+          "text": "وجع",
+          "timestamp": "2026-06-18T18:23:40.931Z",
+          "_id": "6a3437ac623aff64e77bfde8"
+        },
+        {
+          "sender": "system",
+          "text": "جاري التحليل...",
+          "timestamp": "2026-06-18T18:23:41.003Z",
+          "_id": "6a3437ad623aff64e77bfde9"
+        }
+      ],
+      "summarySent": false,
+      "createdAt": "2026-06-14T18:33:27.077Z",
+      "updatedAt": "2026-06-18T18:23:41.011Z",
+      "__v": 50
+    },
+    {
+      "_id": "6a31d7b0798823d0339ca561",
+      "userId": {
+        "_id": "6a2ee97734e2fdd7229f451d",
+        "name": "mohamed anter",
+        "email": "antercom17@gmail.com"
+      },
+      "doctorId": null,
+      "messages": [],
+      "summarySent": false,
+      "createdAt": "2026-06-16T23:09:36.707Z",
+      "updatedAt": "2026-06-16T23:09:36.707Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a31d81d798823d0339ca5c0",
+      "userId": {
+        "_id": "6a2ee97734e2fdd7229f451d",
+        "name": "mohamed anter",
+        "email": "antercom17@gmail.com"
+      },
+      "doctorId": {
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            30,
+            31
+          ]
+        },
+        "workingHours": {
+          "days": [
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri"
+          ],
+          "startTime": "09:00",
+          "endTime": "17:00"
+        },
+        "_id": "6a31d4e5b5a76295b24fee96",
+        "user": {
+          "_id": "6a31d4e5b5a76295b24fee94",
+          "name": "doctor test update",
+          "email": "test_doc_944882@example.com"
+        },
+        "specialty": "Cardiology",
+        "rating": 0,
+        "reviewsCount": 0,
+        "consultationFee": 120,
+        "feeVideo": 100,
+        "feeHome": 150,
+        "isVerified": true,
+        "verificationDocuments": [],
+        "isActive": true,
+        "createdAt": "2026-06-16T22:57:41.833Z",
+        "updatedAt": "2026-06-16T22:57:44.644Z",
+        "__v": 0
+      },
+      "messages": [],
+      "summarySent": false,
+      "createdAt": "2026-06-16T23:11:25.771Z",
+      "updatedAt": "2026-06-16T23:11:25.771Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a31d7b0798823d0339ca55d",
+      "userId": {
+        "_id": "6a2ee97734e2fdd7229f451d",
+        "name": "mohamed anter",
+        "email": "antercom17@gmail.com"
+      },
+      "doctorId": {
+        "location": {
+          "type": "Point",
+          "coordinates": [
+            0,
+            0
+          ]
+        },
+        "workingHours": {
+          "days": [
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri"
+          ],
+          "startTime": "09:00",
+          "endTime": "17:00"
+        },
+        "_id": "6a2f44a377866e9b29972df2",
+        "user": {
+          "_id": "6a2f44a377866e9b29972def",
+          "name": "mohamed anter",
+          "email": "antercom4@gmail.com"
+        },
+        "specialty": "باطنة",
+        "rating": 5,
+        "reviewsCount": 1,
+        "consultationFee": 120,
+        "feeVideo": 100,
+        "feeHome": 150,
+        "verificationDocuments": [],
+        "isActive": true,
+        "createdAt": "2026-06-15T00:17:39.219Z",
+        "updatedAt": "2026-06-17T00:04:20.367Z",
+        "__v": 0,
+        "isVerified": true
+      },
+      "messages": [
+        {
+          "sender": "user",
+          "text": "hi from node",
+          "timestamp": "2026-06-16T23:19:29.566Z",
+          "_id": "6a31da01a814b1282d94542f"
+        },
+        {
+          "sender": "user",
+          "text": "hu",
+          "timestamp": "2026-06-16T23:21:13.653Z",
+          "_id": "6a31da69db9f8688df88fca6"
+        },
+        {
+          "sender": "doctor",
+          "text": "cvv",
+          "timestamp": "2026-06-16T23:21:19.837Z",
+          "_id": "6a31da6fdb9f8688df88fcaf"
+        },
+        {
+          "sender": "user",
+          "text": "Anter",
+          "timestamp": "2026-06-16T23:22:46.731Z",
+          "_id": "6a31dac6db9f8688df88fd4c"
+        },
+        {
+          "sender": "doctor",
+          "text": "Anter",
+          "timestamp": "2026-06-16T23:23:05.658Z",
+          "_id": "6a31dad9db9f8688df88fd77"
+        },
+        {
+          "sender": "doctor",
+          "text": "...",
+          "timestamp": "2026-06-16T23:29:15.865Z",
+          "_id": "6a31dc4b1a263b33c44248c0"
+        },
+        {
+          "sender": "user",
+          "text": ",,,4",
+          "timestamp": "2026-06-16T23:29:23.854Z",
+          "_id": "6a31dc531a263b33c442495c"
+        },
+        {
+          "sender": "user",
+          "text": "تعبان يادكتور",
+          "timestamp": "2026-06-17T17:35:15.673Z",
+          "_id": "6a32dad36e8366212b623fee"
+        },
+        {
+          "sender": "user",
+          "text": "hi from node",
+          "timestamp": "2026-06-17T19:33:34.141Z",
+          "_id": "6a32f68e8611227d905135b8"
+        },
+        {
+          "sender": "user",
+          "text": "hi from node",
+          "timestamp": "2026-06-17T19:37:34.461Z",
+          "_id": "6a32f77e8197904c16ed9a5e"
+        },
+        {
+          "sender": "doctor",
+          "text": "لللللللللللل",
+          "timestamp": "2026-06-17T19:46:39.277Z",
+          "_id": "6a32f99fd86b58d48410d3a8"
+        },
+        {
+          "sender": "user",
+          "text": "ممممم",
+          "timestamp": "2026-06-18T18:28:21.055Z",
+          "_id": "6a3438c54d26dd102594f014"
+        }
+      ],
+      "summarySent": false,
+      "createdAt": "2026-06-16T23:09:36.135Z",
+      "updatedAt": "2026-06-18T18:28:21.060Z",
+      "__v": 12
+    }
+  ]
+}
