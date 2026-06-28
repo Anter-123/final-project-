@@ -20,6 +20,105 @@ import {
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
+const CLINICAL_DISEASE_DETAILS: Record<string, {
+  description: string;
+  risks: string[];
+  recommendations: string[];
+}> = {
+  "melanoma": {
+    description: "Melanoma is the most dangerous form of skin cancer. It develops in the cells (melanocytes) that produce melanin — the pigment that gives your skin its color. Melanoma can also form in your eyes and, rarely, inside your body. Early detection is critical, as melanoma can spread quickly to other organs if not treated early.",
+    risks: [
+      "Can spread (metastasize) to lymph nodes and other organs if not caught early",
+      "One of the most deadly forms of skin cancer",
+      "Risk factors include UV exposure, fair skin, family history, and many moles",
+      "Survival rate drops significantly at advanced stages",
+      "Can develop from an existing mole or appear as a new dark spot"
+    ],
+    recommendations: [
+      " Seek URGENT medical evaluation — early diagnosis is critical for survival",
+      "Do NOT delay — contact a dermatologist or oncologist immediately",
+      "Avoid all UV exposure (sun and tanning beds) completely",
+      "If diagnosed, treatment may include surgery, immunotherapy, or targeted therapy",
+      "Inform close family members to get checked, as there is a hereditary component",
+      "Support groups and mental health resources are available for cancer patients"
+    ]
+  },
+  "dermatofibroma": {
+    description: "Dermatofibroma is a common, benign (non-cancerous) skin growth that appears as a small, firm, red-to-brown bump, most commonly on the legs. They are harmless, asymptomatic, and persist indefinitely. They are caused by a reactive proliferation of fibroblasts, typically triggered by minor skin trauma like insect bites or minor cuts.",
+    risks: [
+      "Extremely low risk — benign skin lesion that does not become cancerous",
+      "May cause minor discomfort, itching, or tenderness if bumped or shaved over",
+      "Can be cosmetically undesirable due to hyperpigmentation"
+    ],
+    recommendations: [
+      "No treatment is necessary in most cases as they are completely harmless",
+      "Visit a dermatologist if it grows rapidly, bleeds, or changes color",
+      "Can be surgically removed or frozen with liquid nitrogen if causing irritation"
+    ]
+  },
+  "benign keratosis-like lesions": {
+    description: "Benign Keratosis-like Lesions (such as Seborrheic Keratosis) are non-cancerous skin growths that are common in older adults. They typically appear as waxy, scaly, or 'stuck-on' raised spots on the face, chest, shoulders, or back. They are harmless and not contagious, though they can sometimes resemble skin cancer.",
+    risks: [
+      "Completely benign and do not turn into skin cancer",
+      "Can become irritated, itchy, or bleed if rubbed against clothing",
+      "Multiple lesions may appear over time, causing cosmetic concerns"
+    ],
+    recommendations: [
+      "Generally require no treatment unless they become irritated or cosmetically problematic",
+      "Dermatologists can remove them using cryotherapy (freezing), curettage, or laser therapy",
+      "Get any new or rapidly changing spot checked by a professional to ensure it is not malignant"
+    ]
+  },
+  "melanocytic nevi (moles)": {
+    description: "Melanocytic Nevi, commonly known as moles, are benign skin growths caused by a cluster of pigmented cells (melanocytes). Most moles appear during childhood and adolescence. While most moles are completely harmless, changes in a mole's size, shape, or color can be a warning sign of melanoma.",
+    risks: [
+      "Usually benign, but atypical moles (dysplastic nevi) have a higher risk of turning into melanoma",
+      "Increased risk of malignancy if subject to chronic sun exposure or severe sunburns"
+    ],
+    recommendations: [
+      "Monitor moles regularly using the ABCDE guide (Asymmetry, Border, Color, Diameter, Evolving)",
+      "Schedule annual skin examinations with a dermatologist, especially if you have many moles",
+      "Apply broad-spectrum sunscreen daily and avoid excessive sun exposure"
+    ]
+  },
+  "actinic keratoses": {
+    description: "Actinic Keratosis is a rough, scaly patch on the skin that develops from years of sun exposure. It is most commonly found on the sun-exposed areas like face, lips, ears, scalp, neck, or back of the hands. It is classified as a precancerous skin lesion that can lead to Squamous Cell Carcinoma if left untreated.",
+    risks: [
+      "Precancerous condition: can progress to Squamous Cell Carcinoma (a type of skin cancer) if untreated",
+      "Indicator of significant cumulative UV damage to the skin"
+    ],
+    recommendations: [
+      "Medical treatment is highly recommended to prevent progression to cancer",
+      "Treatments include cryotherapy, topical prescription creams (like 5-fluorouracil), or photodynamic therapy",
+      "Strict sun protection is essential: use SPF 30+ sunscreen, wear hats, and avoid peak sun hours"
+    ]
+  },
+  "basal cell carcinoma": {
+    description: "Basal Cell Carcinoma (BCC) is the most common type of skin cancer. It typically develops on sun-exposed areas of the skin, such as the head and neck. It often appears as a slightly shiny, pearly bump, a pink patch, or a sore that doesn't heal. It grows slowly and rarely spreads to other parts of the body.",
+    risks: [
+      "Locally destructive: can invade surrounding tissue, bone, and nerves if left untreated",
+      "High rate of local recurrence if not completely removed"
+    ],
+    recommendations: [
+      "Seek medical treatment promptly; excision is highly successful",
+      "Treatments include surgical excision, Mohs surgery, curettage and electrodesiccation, or radiation",
+      "Perform monthly skin self-exams and consult a dermatologist for any suspicious new sores or bumps"
+    ]
+  },
+  "vascular lesions": {
+    description: "Vascular Lesions are relatively common skin growths containing abnormally dense clusters of blood vessels. Examples include cherry angiomas, hemangiomas, and port-wine stains. Most are congenital or develop with age and are completely benign, though some can bleed if injured.",
+    risks: [
+      "Almost always benign and do not pose a threat of malignancy",
+      "May bleed easily if scratched, bumped, or traumatized"
+    ],
+    recommendations: [
+      "No treatment is needed unless for cosmetic preference or if they bleed frequently",
+      "Options for removal include laser therapy, electrocautery, or cryosurgery",
+      "Consult a doctor if a vascular spot grows rapidly or changes character"
+    ]
+  }
+};
+
 export const SkinAI: React.FC = () => {
   const { lang } = useLanguage();
   const navigate = useNavigate();
@@ -232,6 +331,34 @@ export const SkinAI: React.FC = () => {
     
     try {
       const response = await skinService.predictSkinCondition(selectedFile);
+      
+      // Enrich response details if they are empty or truncated (ends with .. or ...)
+      if (response && response.data) {
+        const predictedClassLower = response.data.predicted_class.toLowerCase();
+        const enrichment = CLINICAL_DISEASE_DETAILS[predictedClassLower] || 
+                           Object.entries(CLINICAL_DISEASE_DETAILS).find(([key]) => predictedClassLower.includes(key))?.[1];
+        
+        if (enrichment) {
+          const isDescriptionTruncated = 
+            !response.data.description ||
+            response.data.description.length < 120 ||
+            response.data.description.trim().endsWith("..") || 
+            response.data.description.trim().endsWith("...");
+            
+          if (isDescriptionTruncated) {
+            response.data.description = enrichment.description;
+          }
+          
+          if (!response.data.risks || response.data.risks.length === 0) {
+            response.data.risks = enrichment.risks;
+          }
+          
+          if (!response.data.recommendations || response.data.recommendations.length === 0) {
+            response.data.recommendations = enrichment.recommendations;
+          }
+        }
+      }
+      
       setResult(response);
       toast.success(lang === "ar" ? "تم إتمام التحليل بنجاح!" : "Analysis completed successfully!");
     } catch (err: any) {
@@ -335,7 +462,7 @@ export const SkinAI: React.FC = () => {
                   className="w-full flex items-center justify-center gap-2 py-3 bg-muted hover:bg-muted/80 text-foreground font-semibold rounded-xl text-xs active:scale-95 transition-all border shadow-sm"
                 >
                   <Camera className="h-4.5 w-4.5 text-primary" />
-                  {lang === "ar" ? "التقاط صورة كاميرا مباشرة" : "Take Live Camera Photo"}
+                  <span>{lang === "ar" ? "التقاط صورة كاميرا مباشرة" : "Take Live Camera Photo"}</span>
                 </button>
               </div>
             )}
@@ -457,12 +584,12 @@ export const SkinAI: React.FC = () => {
                     {loading ? (
                       <>
                         <RefreshCw className="h-4 w-4 animate-spin" />
-                        {lang === "ar" ? "جاري معالجة وتحليل الأنسجة..." : "Analyzing tissue sample..."}
+                        <span>{lang === "ar" ? "جاري معالجة وتحليل الأنسجة..." : "Analyzing tissue sample..."}</span>
                       </>
                     ) : (
                       <>
                         <Sparkles className="h-4 w-4 text-amber-300" />
-                        {lang === "ar" ? "بدء التشخيص الذكي" : "Run AI Diagnostics"}
+                        <span>{lang === "ar" ? "بدء التشخيص الذكي" : "Run AI Diagnostics"}</span>
                       </>
                     )}
                   </button>
@@ -529,16 +656,18 @@ export const SkinAI: React.FC = () => {
                   <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
                     {lang === "ar" ? "التصنيف المقدر" : "Estimated Classification"}
                   </span>
-                  <h4 className="font-black text-xl text-foreground">
+                  <h4 className="font-black text-xl text-foreground text-left sm:text-left rtl:text-left" dir="ltr">
                     {formatClassName(result.data.predicted_class)}
                   </h4>
                   <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
                     <span className={`px-2.5 py-0.5 rounded-full border text-[10px] font-bold ${getSeverityStyles(result.data.predicted_class).bg}`}>
                       {getSeverityStyles(result.data.predicted_class).label}
                     </span>
-                    <span className="px-2 py-0.5 rounded-full bg-muted border text-muted-foreground text-[10px]">
-                      Index: {result.data.predicted_class_index}
-                    </span>
+                    {result.data.predicted_class_index !== null && result.data.predicted_class_index !== undefined && (
+                      <span className="px-2 py-0.5 rounded-full bg-muted border text-muted-foreground text-[10px]">
+                        Index: {result.data.predicted_class_index}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -548,7 +677,7 @@ export const SkinAI: React.FC = () => {
                 <span className="text-[10px] text-primary font-bold uppercase tracking-wider">
                   {lang === "ar" ? "الوصف السريري التفصيلي" : "Detailed Clinical Description"}
                 </span>
-                <p className="text-xs text-muted-foreground leading-relaxed p-4 bg-muted/20 border rounded-xl">
+                <p className="text-xs text-muted-foreground leading-relaxed p-4 bg-muted/20 border rounded-xl text-left" dir="ltr">
                   {result.data.description}
                 </p>
               </div>
@@ -561,9 +690,57 @@ export const SkinAI: React.FC = () => {
                   </span>
                   <div className="space-y-2">
                     {result.data.risks.map((risk, index) => (
-                      <div key={index} className="flex items-start gap-2.5 p-3 bg-rose-500/5 border border-rose-500/10 rounded-xl text-xs text-rose-600 dark:text-rose-400">
+                      <div key={index} className="flex items-start gap-2.5 p-3 bg-rose-500/5 border border-rose-500/10 rounded-xl text-xs text-rose-600 dark:text-rose-400 text-left" dir="ltr">
                         <AlertTriangle className="h-4.5 w-4.5 shrink-0 mt-0.5 text-rose-500" />
                         <p className="leading-relaxed text-[11px]">{risk}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Recommendations Section */}
+              {result.data.recommendations && result.data.recommendations.length > 0 && (
+                <div className="space-y-2">
+                  <span className="text-[10px] text-blue-500 font-bold uppercase tracking-wider">
+                    {lang === "ar" ? "الإجراءات والتوصيات الطبية الموصى بها" : "Clinical Action Recommendations"}
+                  </span>
+                  <div className="space-y-2">
+                    {result.data.recommendations.map((rec, idx) => (
+                      <div key={idx} className="flex items-start gap-2.5 p-3 bg-blue-500/5 border border-blue-500/10 rounded-xl text-xs text-blue-600 dark:text-blue-400 text-left" dir="ltr">
+                        <CheckCircle2 className="h-4.5 w-4.5 shrink-0 mt-0.5 text-blue-500" />
+                        <p className="leading-relaxed text-[11px]">{rec}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Probability Breakdown Section */}
+              {result.data.all_probabilities && result.data.all_probabilities.length > 0 && (
+                <div className="space-y-3">
+                  <span className="text-[10px] text-primary font-bold uppercase tracking-wider block">
+                    {lang === "ar" ? "احتمالات التحليل التفصيلية" : "Pathology Probability Breakdown"}
+                  </span>
+                  <div className="space-y-2.5 p-4 bg-muted/20 border rounded-xl" dir="ltr">
+                    {result.data.all_probabilities.map((prob, idx) => (
+                      <div key={idx} className="space-y-1 text-left">
+                        <div className="flex justify-between text-[11px] font-medium">
+                          <span className="text-muted-foreground">{prob.class_name}</span>
+                          <span className="text-foreground font-semibold">{prob.confidence.toFixed(2)}%</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full transition-all duration-500 ${
+                              prob.confidence > 50 
+                                ? "bg-primary" 
+                                : prob.confidence > 10 
+                                  ? "bg-sky-400" 
+                                  : "bg-muted-foreground/30"
+                            }`}
+                            style={{ width: `${prob.confidence}%` }}
+                          />
+                        </div>
                       </div>
                     ))}
                   </div>
