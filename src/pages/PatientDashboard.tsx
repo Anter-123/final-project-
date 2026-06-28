@@ -9,6 +9,7 @@ import { medicationService } from "../services/medicationService";
 import type { Medication } from "../services/medicationService";
 import { symptomService } from "../services/symptomService";
 import { chatService } from "../services/chatService";
+import { useLanguage } from "../context/LanguageContext";
 import { 
   Heart, 
   Pill, 
@@ -32,6 +33,7 @@ import toast from "react-hot-toast";
 export const PatientDashboard: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { lang } = useLanguage();
   
   // States
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -45,11 +47,41 @@ export const PatientDashboard: React.FC = () => {
   const [duration, setDuration] = useState("");
   const [loggingSymptom, setLoggingSymptom] = useState(false);
 
+  // Helper functions for 12h/24h time formatting
+  const format24to12 = (time24: string): string => {
+    const [hourStr, minStr] = time24.split(":");
+    let hour = parseInt(hourStr, 10);
+    const minute = minStr;
+    const ampm = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12;
+    hour = hour ? hour : 12;
+    const hourFormatted = hour.toString().padStart(2, "0");
+    return `${hourFormatted}:${minute} ${ampm}`;
+  };
+
+  const format12to24 = (time12: string): string => {
+    const match = time12.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i);
+    if (!match) return "08:00";
+    let hour = parseInt(match[1], 10);
+    const minute = match[2];
+    const ampm = match[3]?.toUpperCase();
+
+    if (ampm === "PM" && hour !== 12) hour += 12;
+    if (ampm === "AM" && hour === 12) hour = 0;
+
+    return `${hour.toString().padStart(2, "0")}:${minute}`;
+  };
+
   // New medication form state
   const [medName, setMedName] = useState("");
   const [medDosage, setMedDosage] = useState("");
-  const [medTimes, setMedTimes] = useState("08:00 AM, 08:00 PM");
-  const [medDuration, setMedDuration] = useState(7);
+  const [medTimesList, setMedTimesList] = useState<string[]>(["08:00", "20:00"]);
+  const [medStartDate, setMedStartDate] = useState(() => new Date().toISOString().split("T")[0]);
+  const [medEndDate, setMedEndDate] = useState(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 7);
+    return d.toISOString().split("T")[0];
+  });
   const [addingMed, setAddingMed] = useState(false);
   const [showAddMed, setShowAddMed] = useState(false);
   const [editingMedId, setEditingMedId] = useState<string | null>(null);
@@ -139,14 +171,18 @@ export const PatientDashboard: React.FC = () => {
 
   const handleAddMedication = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!medName || !medDosage) {
+    if (!medName || !medDosage || medTimesList.length === 0) {
       toast.error("Please fill in medication details");
       return;
     }
 
     setAddingMed(true);
     try {
-      const parsedTimes = medTimes.split(",").map(t => t.trim());
+      const start = new Date(medStartDate + 'T00:00:00');
+      const end = new Date(medEndDate + 'T00:00:00');
+      const durationDays = Math.max(1, Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)));
+
+      const parsedTimes = medTimesList.map(t => format24to12(t));
       
       if (editingMedId) {
         // Delete old schedule first
@@ -157,15 +193,18 @@ export const PatientDashboard: React.FC = () => {
         name: medName,
         dosage: medDosage,
         times: parsedTimes,
-        durationDays: Number(medDuration)
+        durationDays: durationDays
       });
       
       toast.success(editingMedId ? "Medication schedule updated successfully!" : "Medication schedule added successfully!");
       
       setMedName("");
       setMedDosage("");
-      setMedTimes("08:00 AM, 08:00 PM");
-      setMedDuration(7);
+      setMedTimesList(["08:00", "20:00"]);
+      setMedStartDate(new Date().toISOString().split("T")[0]);
+      const nextWeek = new Date();
+      nextWeek.setDate(nextWeek.getDate() + 7);
+      setMedEndDate(nextWeek.toISOString().split("T")[0]);
       setEditingMedId(null);
       setShowAddMed(false);
       
@@ -194,8 +233,17 @@ export const PatientDashboard: React.FC = () => {
     setEditingMedId(med._id);
     setMedName(med.name);
     setMedDosage(med.dosage);
-    setMedTimes(med.times.join(", "));
-    setMedDuration(med.durationDays || 7);
+    
+    const mappedTimes = med.times.map(t => format12to24(t));
+    setMedTimesList(mappedTimes);
+
+    const todayStr = new Date().toISOString().split("T")[0];
+    setMedStartDate(todayStr);
+    
+    const end = new Date();
+    end.setDate(end.getDate() + (med.durationDays || 7));
+    setMedEndDate(end.toISOString().split("T")[0]);
+    
     setShowAddMed(true);
   };
 
@@ -301,13 +349,16 @@ export const PatientDashboard: React.FC = () => {
                   setEditingMedId(null);
                   setMedName("");
                   setMedDosage("");
-                  setMedTimes("08:00 AM, 08:00 PM");
-                  setMedDuration(7);
+                  setMedTimesList(["08:00", "20:00"]);
+                  setMedStartDate(new Date().toISOString().split("T")[0]);
+                  const nextWeek = new Date();
+                  nextWeek.setDate(nextWeek.getDate() + 7);
+                  setMedEndDate(nextWeek.toISOString().split("T")[0]);
                   setShowAddMed(!showAddMed);
                 }}
                 className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-lg text-xs font-semibold"
               >
-                <Plus className="h-3.5 w-3.5" /> Log Schedule
+                <Plus className="h-3.5 w-3.5" /> {lang === "ar" ? "تسجيل دواء" : "Log Schedule"}
               </button>
             </div>
 
@@ -316,7 +367,7 @@ export const PatientDashboard: React.FC = () => {
               <form onSubmit={handleAddMedication} className="p-4 border rounded-xl bg-slate-900/5 dark:bg-slate-950/20 space-y-3 animate-in fade-in slide-in-from-top-2">
                 <div className="flex justify-between items-center border-b pb-2 mb-2">
                   <h4 className="font-bold text-xs text-primary flex items-center gap-1.5">
-                    <Pill className="h-4 w-4 text-primary animate-pulse" /> {editingMedId ? "Edit Medication Schedule" : "Add Medication Schedule"}
+                    <Pill className="h-4 w-4 text-primary animate-pulse" /> {editingMedId ? (lang === "ar" ? "تعديل جدول الدواء" : "Edit Medication Schedule") : (lang === "ar" ? "إضافة جدول دواء" : "Add Medication Schedule")}
                   </h4>
                   {editingMedId && (
                     <button
@@ -325,57 +376,116 @@ export const PatientDashboard: React.FC = () => {
                         setEditingMedId(null);
                         setMedName("");
                         setMedDosage("");
-                        setMedTimes("08:00 AM, 08:00 PM");
-                        setMedDuration(7);
+                        setMedTimesList(["08:00", "20:00"]);
+                        setMedStartDate(new Date().toISOString().split("T")[0]);
+                        const nextWeek = new Date();
+                        nextWeek.setDate(nextWeek.getDate() + 7);
+                        setMedEndDate(nextWeek.toISOString().split("T")[0]);
                         setShowAddMed(false);
                       }}
                       className="text-[10px] text-rose-500 hover:underline font-semibold"
                     >
-                      Clear Edit
+                      {lang === "ar" ? "إلغاء التعديل" : "Clear Edit"}
                     </button>
                   )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[10px] font-semibold uppercase text-muted-foreground mb-1">Medication Name</label>
+                    <label className="block text-[10px] font-semibold uppercase text-muted-foreground mb-1">
+                      {lang === "ar" ? "اسم الدواء" : "Medication Name"}
+                    </label>
                     <input
                       type="text"
                       required
-                      placeholder="Panadol Joint / Lipitor"
+                      placeholder={lang === "ar" ? "مثال: بنادول / ليبتور" : "Panadol Joint / Lipitor"}
                       value={medName}
                       onChange={(e) => setMedName(e.target.value)}
                       className="w-full px-2 py-1.5 bg-background border rounded-lg text-xs focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-semibold uppercase text-muted-foreground mb-1">Dosage</label>
+                    <label className="block text-[10px] font-semibold uppercase text-muted-foreground mb-1">
+                      {lang === "ar" ? "الجرعة" : "Dosage"}
+                    </label>
                     <input
                       type="text"
                       required
-                      placeholder="1 tablet every 8 hours"
+                      placeholder={lang === "ar" ? "مثال: قرص كل 8 ساعات" : "1 tablet every 8 hours"}
                       value={medDosage}
                       onChange={(e) => setMedDosage(e.target.value)}
                       className="w-full px-2 py-1.5 bg-background border rounded-lg text-xs focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-semibold uppercase text-muted-foreground mb-1">Hours Checklist (Comma separated)</label>
+                    <label className="block text-[10px] font-semibold uppercase text-muted-foreground mb-1">
+                      {lang === "ar" ? "تاريخ البدء (التقويم)" : "Start Date"}
+                    </label>
                     <input
-                      type="text"
-                      placeholder="08:00 AM, 04:00 PM, 12:00 AM"
-                      value={medTimes}
-                      onChange={(e) => setMedTimes(e.target.value)}
+                      type="date"
+                      required
+                      value={medStartDate}
+                      onChange={(e) => {
+                        setMedStartDate(e.target.value);
+                        if (new Date(medEndDate) < new Date(e.target.value)) {
+                          setMedEndDate(e.target.value);
+                        }
+                      }}
                       className="w-full px-2 py-1.5 bg-background border rounded-lg text-xs focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-semibold uppercase text-muted-foreground mb-1">Duration (Days)</label>
+                    <label className="block text-[10px] font-semibold uppercase text-muted-foreground mb-1">
+                      {lang === "ar" ? "تاريخ الانتهاء (التقويم)" : "End Date"}
+                    </label>
                     <input
-                      type="number"
-                      value={medDuration}
-                      onChange={(e) => setMedDuration(Number(e.target.value))}
+                      type="date"
+                      required
+                      value={medEndDate}
+                      min={medStartDate}
+                      onChange={(e) => setMedEndDate(e.target.value)}
                       className="w-full px-2 py-1.5 bg-background border rounded-lg text-xs focus:outline-none"
                     />
+                  </div>
+                  
+                  <div className="md:col-span-2">
+                    <label className="block text-[10px] font-semibold uppercase text-muted-foreground mb-2">
+                      {lang === "ar" ? "مواعيد منبه الدواء (اختر من الساعة)" : "Medication Times (Clock Pickers)"}
+                    </label>
+                    <div className="space-y-2">
+                      {medTimesList.map((time, idx) => (
+                        <div key={idx} className="flex gap-2 items-center">
+                          <input
+                            type="time"
+                            required
+                            value={time}
+                            onChange={(e) => {
+                              const newTimes = [...medTimesList];
+                              newTimes[idx] = e.target.value;
+                              setMedTimesList(newTimes);
+                            }}
+                            className="flex-1 px-2.5 py-1.5 bg-background border rounded-lg text-xs focus:outline-none"
+                          />
+                          {medTimesList.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setMedTimesList(medTimesList.filter((_, i) => i !== idx));
+                              }}
+                              className="p-1.5 text-rose-500 hover:bg-rose-500/10 rounded-lg transition-all active:scale-95"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => setMedTimesList([...medTimesList, "12:00"])}
+                        className="text-[10px] text-primary hover:underline font-semibold flex items-center gap-1 mt-1"
+                      >
+                        <Plus className="h-3 w-3" /> {lang === "ar" ? "إضافة موعد آخر" : "Add Another Time"}
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -385,14 +495,14 @@ export const PatientDashboard: React.FC = () => {
                     onClick={() => setShowAddMed(false)}
                     className="px-3 py-1 bg-muted hover:bg-muted/80 text-foreground rounded-lg text-xs font-semibold"
                   >
-                    Cancel
+                    {lang === "ar" ? "إلغاء" : "Cancel"}
                   </button>
                   <button
                     type="submit"
                     disabled={addingMed}
                     className="inline-flex items-center gap-1 px-4.5 py-1 bg-primary text-white rounded-lg text-xs font-semibold shadow"
                   >
-                    {addingMed && <Loader2 className="h-3 w-3 animate-spin" />} Save
+                    {addingMed && <Loader2 className="h-3 w-3 animate-spin" />} {lang === "ar" ? "حفظ" : "Save"}
                   </button>
                 </div>
               </form>

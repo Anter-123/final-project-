@@ -393,7 +393,9 @@ export const DoctorDirectory: React.FC = () => {
                           {lang === "ar" ? "يوم الاستشارة" : "Consultation Day"}
                         </label>
                         <div className="w-full px-3 py-2 bg-muted/30 border rounded-xl text-xs text-muted-foreground font-medium flex items-center h-[38px]">
-                          {selectedDay ? translateDayName(selectedDay) : (lang === "ar" ? "-- سيتم تحديده تلقائياً --" : "-- Will be set automatically --")}
+                          <span>
+                            {selectedDay ? translateDayName(selectedDay) : (lang === "ar" ? "-- سيتم تحديده تلقائياً --" : "-- Will be set automatically --")}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -405,14 +407,18 @@ export const DoctorDirectory: React.FC = () => {
                         return (
                           <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl text-xs font-medium space-y-1">
                             <p>
-                              {lang === "ar" 
-                                ? `الطبيب غير متاح في يوم ${translateDayName(selectedDay)}.` 
-                                : `The doctor is not available on ${translateDayName(selectedDay)}.`}
+                              <span>
+                                {lang === "ar" 
+                                  ? `الطبيب غير متاح في يوم ${translateDayName(selectedDay)}.` 
+                                  : `The doctor is not available on ${translateDayName(selectedDay)}.`}
+                              </span>
                             </p>
                             <p className="text-[10px] opacity-90">
-                              {lang === "ar" 
-                                ? `الأيام المتاحة للطبيب: ${doctorDetails.doctorProfile.workingHours?.map(w => translateDayName(w.day)).join("، ")}` 
-                                : `Available working days: ${doctorDetails.doctorProfile.workingHours?.map(w => translateDayName(w.day)).join(", ")}`}
+                              <span>
+                                {lang === "ar" 
+                                  ? `الأيام المتاحة للطبيب: ${doctorDetails.doctorProfile.workingHours?.map(w => translateDayName(w.day)).join("، ")}` 
+                                  : `Available working days: ${doctorDetails.doctorProfile.workingHours?.map(w => translateDayName(w.day)).join(", ")}`}
+                              </span>
                             </p>
                           </div>
                         );

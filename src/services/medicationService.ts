@@ -24,7 +24,13 @@ export const medicationService = {
     const todayStr = new Date().toISOString().split("T")[0];
     const storageKey = `taken_meds_${todayStr}`;
     const takenMedsRaw = localStorage.getItem(storageKey) || "[]";
-    const takenMeds: string[] = JSON.parse(takenMedsRaw);
+    let takenMeds: string[] = [];
+    try {
+      takenMeds = JSON.parse(takenMedsRaw);
+      if (!Array.isArray(takenMeds)) takenMeds = [];
+    } catch {
+      takenMeds = [];
+    }
 
     return rawList.map((m: any) => {
       const medId = m._id || m.id || "";

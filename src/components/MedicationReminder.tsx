@@ -58,13 +58,18 @@ function persistAlerted(key: string): void {
   localStorage.setItem(getAlertedStorageKey(), JSON.stringify([...set]));
 }
 
-// Request browser notification permission once
+// Request browser notification permission once safely
 async function ensureNotificationPermission(): Promise<boolean> {
-  if (!("Notification" in window)) return false;
-  if (Notification.permission === "granted") return true;
-  if (Notification.permission === "denied") return false;
-  const result = await Notification.requestPermission();
-  return result === "granted";
+  try {
+    if (!("Notification" in window)) return false;
+    if (Notification.permission === "granted") return true;
+    if (Notification.permission === "denied") return false;
+    const result = await Notification.requestPermission();
+    return result === "granted";
+  } catch (err) {
+    console.warn("Could not request notification permission:", err);
+    return false;
+  }
 }
 
 function fireNotification(med: Medication, timeSlot: string): void {
@@ -117,37 +122,52 @@ export const MedicationReminder: React.FC = () => {
     try {
       const data = await medicationService.getMedications();
       medsRef.current = Array.isArray(data) ? data : [];
-    } catch {
-      // Silent fail — don't spam errors
+    } catch (e) {
+      console.error("[MedReminder] Failed to fetch medications:", e);
     }
   }, []);
 
-  // Core reminder checker
+  // Core reminder checker (with background throttling protection & console logs)
   const checkReminders = useCallback(() => {
     const meds = medsRef.current;
+    console.log(`[MedReminder] Running schedule tick at ${new Date().toLocaleTimeString()}. Loaded meds count: ${meds.length}`);
     if (meds.length === 0) return;
 
     const now = new Date();
     const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
     meds.forEach((med) => {
-      if (med.takenToday) return; // already taken
+      // Check if this medication is already marked as taken today
+      if (med.takenToday) {
+        console.log(`[MedReminder] Skipped "${med.name}" - Already taken today.`);
+        return;
+      }
 
       med.times.forEach((timeSlot) => {
         const schedMinutes = parseTimeToMinutes(timeSlot);
-        if (schedMinutes === null) return;
+        if (schedMinutes === null) {
+          console.warn(`[MedReminder] Failed to parse time slot "${timeSlot}" for medication "${med.name}"`);
+          return;
+        }
 
-        const diff = Math.abs(nowMinutes - schedMinutes);
-        if (diff > WINDOW_MINUTES) return; // outside ±5 min window
+        // Bulletproof Logic: If the scheduled time has arrived or passed today
+        if (nowMinutes >= schedMinutes) {
+          const alertKey = `${med._id}__${timeSlot}`;
+          const alerted = getAlertedSet();
 
-        // Unique key for this med + time slot + today
-        const alertKey = `${med._id}__${timeSlot}`;
-        const alerted = getAlertedSet();
-        if (alerted.has(alertKey)) return; // already alerted today for this slot
+          if (alerted.has(alertKey)) {
+            // Already triggered today for this time slot
+            return;
+          }
 
-        // Fire!
-        persistAlerted(alertKey);
-        fireNotification(med, timeSlot);
+          console.log(`[MedReminder] TRIGGERING ALERT for "${med.name}" scheduled at "${timeSlot}" (schedMinutes: ${schedMinutes}, nowMinutes: ${nowMinutes})`);
+          
+          // Fire!
+          persistAlerted(alertKey);
+          fireNotification(med, timeSlot);
+        } else {
+          console.log(`[MedReminder] Medication "${med.name}" scheduled for "${timeSlot}" is in the future.`);
+        }
       });
     });
   }, []);
