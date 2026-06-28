@@ -970,7 +970,7 @@ export const chatService = {
         body_part: bodyPart,
         lang: lang,
         chatId: chatId
-      });
+      }, { timeout: 15000 }); // 15s timeout for local LLM generation
       const res = response.data;
       
       let replyText = "";
@@ -1003,10 +1003,7 @@ export const chatService = {
 
         // 3. Fallback to general fields if still empty
         if (!replyText && res.aiReply) {
-          if (res.aiReply.error === "AI logic failed") {
-            // Smart local fallback if backend AI API key is missing/invalid
-            return { reply: generateLocalAIResponse(message, bodyPart), isLocal: true };
-          } else if (typeof res.aiReply === "string") {
+          if (typeof res.aiReply === "string") {
             replyText = res.aiReply;
           } else if (res.aiReply.reply) {
             replyText = res.aiReply.reply;
@@ -1038,16 +1035,20 @@ export const chatService = {
         }
       }
       
+      if (!replyText) {
+        throw new Error(isAr ? "لم يتم استلام رد صالح من خادم الذكاء الاصطناعي." : "No valid reply received from AI server.");
+      }
+      
       return { 
-        reply: replyText || generateLocalAIResponse(message, bodyPart), 
-        isLocal: !replyText,
+        reply: replyText, 
+        isLocal: false,
         chatId: res?.chatId || res?.aiReply?.chatId,
         report: reportData
       };
     } catch (err: any) {
-      console.warn("sendAIMessage server error, falling back to local advisor:", err);
-      // Resilient local medical advisor fallback on any server/network failure
-      return { reply: generateLocalAIResponse(message, bodyPart), isLocal: true };
+      console.error("sendAIMessage server error:", err);
+      // Throw actual error so it is visible in the frontend chat console/interface
+      throw err;
     }
   },
 };
